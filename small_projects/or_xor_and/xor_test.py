@@ -33,3 +33,5 @@ knn_test_label = knn.predict(test_data)
 
 print(test_data, '의 예측결과: ', knn_test_label)
 print(accuracy_score([0,1,1,0], knn_test_label))
+
+# 100% 예측 결과값을 도출해냄.
