@@ -4,7 +4,7 @@ import cv2
 
 cascade_files = ['haarcascade_frontalface_alt.xml', 'haarcascade_profileface.xml']
 
-img = cv2.imread("./test_imgs/yoko.jpg")
+img = cv2.imread("./test_imgs/test2.jpeg")
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 flipped = cv2.flip(img_gray, 1)
