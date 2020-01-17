@@ -26,19 +26,73 @@ subplot을 사용해 앞 15개 숫자들 확인
 '''
 손글씨 숫자 이미지 머신러닝
 '''
-from sklearn.model_selection import train_test_split
-from sklearn import datasets, svm, metrics
-from sklearn.metrics import accuracy_score
+# from sklearn.model_selection import train_test_split
+# from sklearn import datasets, svm, metrics
+# from sklearn.metrics import accuracy_score
 
-digits = datasets.load_digits()
-x = digits.images
-y = digits.target
-x = x.reshape((-1, 64))
+# digits = datasets.load_digits()
+# x = digits.images
+# y = digits.target
+# x = x.reshape((-1, 64))
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
-clf = svm.LinearSVC()
-clf.fit(x_train, y_train)
+# clf = svm.LinearSVC()
+# clf.fit(x_train, y_train)
 
-y_pred = clf.predict(x_test)
-print(accuracy_score(y_test, y_pred))
+# y_pred = clf.predict(x_test)
+# print(accuracy_score(y_test, y_pred))
+
+'''
+학습한 데이터 저장하기
+'''
+# import joblib
+# joblib.dump(clf, 'digits.pkl')
+
+'''
+학습한 데이터 불러오기
+'''
+# import joblib
+# from sklearn.model_selection import train_test_split
+# from sklearn import datasets, svm, metrics
+# from sklearn.metrics import accuracy_score
+# clf = joblib.load('digits.pkl')
+
+# digits = datasets.load_digits()
+# x = digits.images
+# y = digits.target
+# x = x.reshape((-1, 64))
+
+# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+
+# clf = joblib.load('digits.pkl')
+# clf.fit(x_train, y_train)
+
+# y_pred = clf.predict(x_test)
+# print(accuracy_score(y_test, y_pred))
+
+'''
+내 손글씨 이미지 판정하기
+'''
+import cv2
+import joblib
+import matplotlib.pyplot as plt
+
+def predict_digit(filename):
+    clf = joblib.load('./learned_data/digits.pkl')
+    my_img = cv2.imread(filename)
+    my_img = cv2.cvtColor(my_img, cv2.COLOR_BGR2GRAY)
+    my_img = cv2.resize(my_img, (8,8))
+    my_img = 15 - my_img // 16
+    my_img = my_img.reshape((-1,64))
+    res = clf.predict(my_img)
+
+    return res[0]
+
+# img = cv2.imread('my1.png')
+# plt.imshow(img)
+# plt.show()
+n = predict_digit('./img/my6.png')
+print('my6.png = ' + str(n))
+n = predict_digit('./img/my2.png')
+print('my2.png = ' + str(n))
